@@ -1,0 +1,52 @@
+ CREATE VIEW item_view1 AS 
+ SELECT items.* , categories.* FROM items 
+ INNER JOIN categories  on items.items_id=categories.categories_id;
+
+
+
+
+
+
+SELECT item_view1.*, 1 as favourite FROM item_view1 
+ INNER JOIN favourites on favourites.favourites_id=item_view1.items_id and favourites.favourites_usersid=183
+UNION All 
+SELECT * ,  0 as favourite FROM item_view1
+WHERE items_id != ( SELECT item_view1.items_id FROM item_view1 
+INNER JOIN favourites on favourites.favourites_id=item_view1.items_id and favourites.favourites_usersid=183 )
+
+
+SELECT items.* , favourites.* , users.users_id FROM favourites
+INNER JOIN users on users.users_id=favourites_usersid 
+INNER JOIN items on items.items_id=favourites_itemsid;
+
+
+CREATE or REPLACE view cartview as 
+SELECT SUM(items.items_price) as itemsprice , COUNT(cart.cart_itemid) as itemcount ,cart.*, items.*
+from cart
+JOIN items on cart.cart_itemid = items.items_id
+where cart.cart_order = 0
+GROUP by cart.cart_itemid , cart.cart_userid
+
+//**updating */
+ CREATE or REPLACE view cartview as 
+ SELECT SUM((items.items_price - items.items_price*(items.items_discount/100))) as sumitemdiscountprice , COUNT(cart.cart_itemid) as itemcount,(items.items_price - items.items_price*(items.items_discount/100)) as  itemdiscountprice  ,cart.*, items.*
+ from cart
+ JOIN items on cart.cart_itemid = items.items_id
+where cart.cart_order = 0
+ GROUP by cart.cart_itemid , cart.cart_userid
+
+CREATE or REPLACE view ordersview as SELECT orders.*, address.* 
+from orders LEFT join address on orders.orders_address = address.address_id 
+
+
+ CREATE or REPLACE view orderdetails as 
+ SELECT SUM((items.items_price - items.items_price*(items.items_discount/100))) as sumitemdiscountprice , COUNT(cart.cart_itemid) as itemcount,(items.items_price - items.items_price*(items.items_discount/100)) as  itemdiscountprice  ,cart.*, items.*
+ from cart
+ JOIN items on cart.cart_itemid = items.items_id
+where cart.cart_order != 0
+ GROUP by cart.cart_itemid , cart.cart_userid,cart.cart_order
+
+
+CREATE or REPLACE view topselling as SELECT cart.* ,items.* ,COUNT(cart.cart_id) as itemcount,(items_price - items_price*(items_discount/100)) as  itemdiscountprice from cart 
+INNER JOIN items on items.items_id = cart.cart_itemid where cart.cart_order !=0 
+GROUP BY cart.cart_itemid ORDER BY COUNT(cart.cart_id) DESC 
