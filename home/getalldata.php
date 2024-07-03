@@ -1,5 +1,6 @@
 
 <?php
+
 include "../connect.php";
 $alldata = array();
 $categories = getAllData("categories", null, null, false);
