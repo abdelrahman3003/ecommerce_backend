@@ -2,7 +2,7 @@
 include "../connect.php";
 $userid = filterRequest("userid");
 $data = getAllData("cartview", "cartview.cart_userid = $userid", null, false);
-$stmt = $con->prepare("SELECT SUM(itemdiscountprice) as totalprice , SUM(itemcount) as totalcount from cartview where cartview.cart_userid = $userid");
+$stmt = $con->prepare("SELECT SUM(sumitemdiscountprice) as totalprice , SUM(itemcount) as totalcount from cartview where cartview.cart_userid = $userid");
 $stmt->execute();
 $countprice = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($data['status'] == 'failure') {
