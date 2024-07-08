@@ -1,3 +1,3 @@
 <?php
 include '../../connect.php';
-getAllData("ordersview","1 = 1 and  orders_status=2");
+getAllData("ordersview","'orders_status'=2");
