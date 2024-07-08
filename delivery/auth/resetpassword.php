@@ -1,5 +1,5 @@
 <?php
-include "../connect.php";
+include "../../connect.php";
 $email = filterRequest('email');
 $new_password = filterRequest('New_password');
 $retype_password = filterRequest('Retype_password');

@@ -1,5 +1,5 @@
 <?php
-include "../connect.php";
+include "../../connect.php";
 $email = filterRequest('email');
 $verifycode = filterRequest('verifycode');
 $stmt = $con->prepare("SELECT * FROM `delivery` WHERE `delivery_verifycode` = ? and `delivery_email`=?");

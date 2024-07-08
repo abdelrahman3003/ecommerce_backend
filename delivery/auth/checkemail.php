@@ -1,5 +1,5 @@
 <?php
-include "../connect.php";
+include "../../connect.php";
 $email = filterRequest('email');
 $verifycode = $verifycode = rand(10000, 99999);
 $stmt = $con->prepare("SELECT * FROM `delivery` WHERE `delivery_email` = ?");
