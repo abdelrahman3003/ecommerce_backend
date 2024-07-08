@@ -12,4 +12,4 @@ $password = filterRequest('password');
 //     printFailure("login failed");
 // }
 $response = deleteData("delivery", "delivery_approve= '0'",false);
-getAllData("delivery", "`delivery_email` = ? and `users_password`= ? ", array($email, $password));
+getAllData("delivery", "`delivery_email` = ? and `delivery_password`= ? ", array($email, $password));
